@@ -6,6 +6,15 @@ const socketio = require('socket.io');
 
 const io = socketio(server);
 
+io.on('connection', (socket) => {
+    console.log('a user connected',socket.id);
+
+    socket.on('msg_send',(data)=>{
+        console.log(data);
+        io.emit('msg_recieved',data);
+    })
+});
+
 app.use('/',express.static(__dirname+'/frontend'));
 
 server.listen(3000,()=>{
